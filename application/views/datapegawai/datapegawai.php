@@ -8,7 +8,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?= site_url('Welcome/DataPegawai'); ?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Welcome/DataPegawai');?>" id="navbarDropdown" >
               Data Pegawai
             </a>
           </li>
@@ -18,7 +18,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?=site_url('Welcome/DataKontrak')?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Kontrak/DataKontrak')?>" id="navbarDropdown" >
               Data Kontrak
             </a>
           </li>
@@ -32,7 +32,7 @@
           <div class="btn-group mr-2">
           <!-- Button trigger modal -->
           <div class="btn-group mr-2">
-            <a  class="btn btn-success" href="<?= site_url('Welcome/FormAddPegawai') ?>">ADD DATA</a>
+            <a  class="btn btn-success" href="<?=site_url('Welcome/FormAddPegawai')?>">ADD DATA</a>
           </div>
           </div>
         </div>
@@ -51,23 +51,24 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($tampil as $key => $pegawai) { ?>
+    <?php foreach ($tampil as $key => $pegawai) {?>
       <tr>
-        <td><?= $key+1 ?></td>
-        <td><?= $pegawai->nama;?></td>
-        <td><?= $pegawai->alamat; ?></td>
-        <td><?= $pegawai->tanggal_lahir; ?></td>
-        <td><?= $pegawai->jenis_kelamin; ?></td>
+        <td><?=$key + 1?></td>
+        <td><?=$pegawai->nama;?></td>
+        <td><?=$pegawai->alamat;?></td>
+        <td><?=$pegawai->tanggal_lahir;?></td>
+        <td><?=$pegawai->jenis_kelamin;?></td>
         <td>
-          <a class="btn btn-danger" href="<?= site_url('Welcome/deleteDataPegawai/'.$pegawai->id_pegawai); ?>">
+          <!-- <a class="btn btn-danger" href="<?=site_url('Welcome/deleteDataPegawai/' . $pegawai->id_pegawai);?>">
             Delete
-          </a>
-          <a class="btn btn-info" href="<?= site_url('Welcome/FormEditPegawai/').$pegawai->id_pegawai; ?>">
+          </a> -->
+          <a class="btn btn-danger" onclick="hapus(<?=$pegawai->id_pegawai;?>)">Delete</a>
+          <a class="btn btn-info" href="<?=site_url('Welcome/FormEditPegawai/') . $pegawai->id_pegawai;?>">
           Edit
         </a>
         </td>
       </tr>
-    <?php } ?>
+    <?php }?>
   </tbody>
 </table>
 
@@ -78,4 +79,50 @@
 
     </main>
 
-    
+<script>
+ function hapus(id) {
+      iziToast.show({
+      theme: 'dark',
+      overlay: true,
+      close: false,
+      progressBar: false,
+      timeout: 0,
+      title: 'Hapus Data Pegawai',
+      message: 'Apakah anda yakin ingin menghapus data ini?',
+      position: 'center',
+      buttons: [
+      ['<button><b>Ya</b></button>', function (instance, toast) {
+        $.ajax({
+        type: 'DELETE',
+        url: "http://localhost/datakontrakpegawai2/index.php/Welcome/deleteDataPegawai/" + id,
+        success: function(data) {
+            var datas = JSON.parse(data);
+            console.log(datas);
+            if (datas.status) {
+                iziToast.success({
+                    title: 'Alhamdulilah',
+                    message: 'Data Pegawai Berhasil DiHapus',
+                    position: 'topRight'
+                });
+                setTimeout(function() {
+                    window.location.href =
+                        "<?=site_url('Welcome/DataPegawai/') . $this->uri->segment(3);?>";
+                }, 100);
+            } else {
+                iziToast.error({
+                    title: 'Masyaallah',
+                    message: 'Data pegawai tidak ke Hapus',
+                    position: 'topRight'
+                });
+            }
+        }
+    });
+        instance.hide({ transitionOut: 'fadeOut' }, toast);
+      }, true],
+      ['<button>Tidak</button>', function (instance, toast) {
+        instance.hide({ transitionOut: 'fadeOut' }, toast);
+      }]
+        ]
+      });
+    }
+</script>

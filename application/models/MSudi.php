@@ -39,4 +39,15 @@ class MSudi extends CI_Model
         $query = $this->db->get($tabel);
         return $query;
     }
+    
+    function GetDataKontrak()
+    {
+        $this->db->select('*');
+        $this->db->from('pegawai');
+        $this->db->join('kontrak','kontrak.id_pegawai = pegawai.id_pegawai');
+        $this->db->join('jabatan_pegawai','jabatan_pegawai.id_jabatan = kontrak.id_jabatan');
+        $query = $this->db->get();
+        $this->db->where('kontrak.id_pegawai','ASC');
+        return $query;
+    }
 }

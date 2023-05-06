@@ -20,7 +20,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?=site_url('Welcome/DataKontrak')?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Kontrak/DataKontrak')?>" id="navbarDropdown" >
               Data Kontrak
             </a>
           </li>

@@ -8,7 +8,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?= site_url('Welcome/DataPegawai'); ?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Welcome/DataPegawai');?>" id="navbarDropdown" >
               Data Pegawai
             </a>
           </li>
@@ -18,7 +18,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?=site_url('Welcome/DataKontrak')?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Kontrak/DataKontrak')?>" id="navbarDropdown" >
               Data Kontrak
             </a>
           </li>
@@ -30,10 +30,10 @@
         <h1 class="h2">Dashboard</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-            <a  class="btn btn-success" href="<?= site_url() ?>Welcome/addJabatan">ADD DATA</a>
+            <a  class="btn btn-success" href="<?=site_url('Welcome/FormAddJabatan')?>">ADD DATA</a>
           </div>
         </div>
-        
+
       </div>
       <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -46,24 +46,71 @@
     </tr>
   </thead>
   <tbody>
-    <?php foreach ($tampilJabatan as $key => $jabatan) { ?>
+    <?php foreach ($tampilJabatan as $key => $jabatan) {?>
       <tr>
-        <td><?= $key+1 ?></td>
-        <td><?= $jabatan->nama_jabatan;?></td>
-        <td><?= $jabatan->gaji; ?></td>
+        <td><?=$key + 1?></td>
+        <td><?=$jabatan->nama_jabatan;?></td>
+        <td><?=$jabatan->gaji;?></td>
         <td>
-          <a class="btn btn-danger" href="<?= site_url('Welcome/deleteDataPegawai'.$jabatan->id_jabatan); ?>">
-            Delete
-          </a>
-          <a class="btn btn-info" href="<?= site_url('Welcome/editDataPegawai'.$jabatan->id_jabatan); ?>">
+        <a class="btn btn-danger" onclick="hapus(<?=$jabatan->id_jabatan;?>)">Delete</a>
+          <a class="btn btn-info" href="<?=site_url('Welcome/FormEditJabatan/' . $jabatan->id_jabatan);?>">
           Edit
         </a>
         </td>
       </tr>
-    <?php } ?>
+    <?php }?>
   </tbody>
 </table>
+
       </div>
       <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-      
+
     </main>
+
+<script>
+      function hapus(id) {
+          iziToast.show({
+          theme: 'dark',
+          overlay: true,
+          close: false,
+          progressBar: false,
+          timeout: 0,
+          title: 'Hapus Data Jabatan',
+          message: 'Apakah anda yakin ingin menghapus data ini?',
+          position: 'center',
+          buttons: [
+            ['<button><b>Ya</b></button>', function (instance, toast) {
+              $.ajax({
+                type: 'DELETE',
+                url: "http://localhost/datakontrakpegawai2/index.php/Welcome/deleteDataJabatan/" + id,
+                success: function(data) {
+                    var datas = JSON.parse(data);
+                    console.log(datas);
+                    if (datas.status) {
+                        iziToast.success({
+                            title: 'Alhamdulilah',
+                            message: 'Data Jabatan Berhasil DiHapus',
+                            position: 'topRight'
+                        });
+                        setTimeout(function() {
+                            window.location.href =
+                                "<?=site_url('Welcome/DataJabatan/') . $this->uri->segment(3);?>";
+                        }, 100);
+                    } else {
+                        iziToast.error({
+                            title: 'Masyaallah',
+                            message: 'Data Jabatan tidak ke Hapus',
+                            position: 'topRight'
+                        });
+                    }
+                }
+            });
+              instance.hide({ transitionOut: 'fadeOut' }, toast);
+            }, true],
+            ['<button>Tidak</button>', function (instance, toast) {
+              instance.hide({ transitionOut: 'fadeOut' }, toast);
+            }]
+          ]
+        });
+    }
+</script>

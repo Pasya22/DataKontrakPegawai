@@ -18,7 +18,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?=site_url('Welcome/DataKontrak')?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Kontrak/DataKontrak')?>" id="navbarDropdown" >
               Data Kontrak
             </a>
           </li>
@@ -30,26 +30,32 @@
         <h1 class="h2">Edit Data</h1>
       </div>
       <?php foreach ($show as $key => $abc) {?>
-      <form id="formEditDataPegawai<?=$abc->id_pegawai;?>" method="POST" class="formEditDataPegawai" Action="<?=site_url('Welcome/editDataPegawai/') . $abc->id_pegawai;?>">
+      <form id="formEditDataKontrak<?=$abc->id_kontrak;?>" method="POST" class="formEditDataKontrak" Action="<?=site_url('Welcome/editDataPegawai/') . $abc->id_pegawai;?>">
         <div class="form-group">
-          <label for="nama">Nama Pegawai:</label>
-          <input type="text" class="form-control" id="nama" name="nama" value="<?=$abc->nama;?>">
-        </div>
-        <div class="form-group">
-          <label for="alamat">Alamat:</label>
-          <textarea class="form-control" id="alamat" name="alamat"><?=$abc->alamat?></textarea>
-        </div>
+            <label for="nama">Nama Pegawai:</label>
+            <select name="id_pegawai" id="id_pegawai" class="form-control">
+                <option value="">-- Silahkan Pilih Pegawai --</option>
+            <?php foreach ($show2 as $key => $pegawai) {?>
+                <option value="<?= $pegawai->id_pegawai; ?><?=$pegawai->id_pegawai == $abc->id_pegawai ? "selected" : ""?>"><?= $pegawai->nama?></option>
+                <?php }?>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="nama">Jabatan:</label>
+            <select name="id_jabatan" id="id_jabatan" class="form-control">
+                <option value="">-- Silahkan Pilih Jabatan --</option>
+            <?php foreach ($show3 as $key => $jabatan) {?>
+                <option value="<?= $jabatan->id_jabatan; ?><?=$jabatan->id_jabatan == $abc->id_jabatan ? "selected" : ""?>"><?= $jabatan->nama_jabatan?></option>
+                <?php }?>
+            </select>
+          </div>
         <div class="form-group">
           <label for="tanggal_lahir">Tanggal Lahir:</label>
-          <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="<?=$abc->tanggal_lahir;?>">
+          <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" value="<?=$abc->tanggal_mulai;?>">
         </div>
         <div class="form-group">
-          <label for="jenis_kelamin">Jenis Kelamin:</label>
-          <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-            <option value="">--- pilih jenis kelamin ---</option>
-            <option value="Laki laki" <?=($abc->jenis_kelamin == 'Laki -laki') ? 'selected' : ''?>>Laki-laki</option>
-            <option value="Perempuan" <?=($abc->jenis_kelamin == 'Perempuan') ? 'selected' : ''?>>Perempuan</option>
-          </select>
+          <label for="tanggal_lahir">Tanggal selesai:</label>
+          <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" value="<?=$abc->tanggal_selesai;?>">
         </div>
         <!-- <button type="submit" name="submit"  class="btn btn-outline-primary" id="submit">Save</button> -->
         <button type="button" name="submit" onclick="updatedata()" class="btn btn-outline-primary" id="submit">Save</button>
@@ -63,11 +69,11 @@
     </main>
 <script>
 function updatedata() {
-    var data = $('#formEditDataPegawai' + <?=$abc->id_pegawai;?>).serialize();
+    var data = $('#formEditDataKontrak' + <?=$abc->id_kontrak;?>).serialize();
     console.log(data);
     $.ajax({
         type: 'POST',
-        url: "http://localhost/datakontrakpegawai2/index.php/Welcome/editDataPegawai/"+<?=$abc->id_pegawai;?>,
+        url: "http://localhost/datakontrakpegawai2/index.php/Kontrak/editDataKontrak/"+<?=$abc->id_kontrak;?>,
         data: data ,
         success: function(data) {
             var datas = JSON.parse(data);
@@ -80,7 +86,7 @@ function updatedata() {
                 });
                 setTimeout(function() {
                     window.location.href =
-                        "<?=site_url('Welcome/DataPegawai/')?>";
+                        "<?=site_url('Kontrak/DataKontrak')?>";
                 }, 2000);
             } else {
                 iziToast.error({

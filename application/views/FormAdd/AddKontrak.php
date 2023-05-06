@@ -18,7 +18,7 @@
             </a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link " href="<?=site_url('Welcome/DataKontrak')?>" id="navbarDropdown" >
+            <a class="nav-link " href="<?=site_url('Kontrak/DataKontrak')?>" id="navbarDropdown" >
               Data Kontrak
             </a>
           </li>
@@ -30,56 +30,55 @@
         <h1 class="h2">Add Data</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
-          <!-- Button trigger modal -->
-          <!-- <div class="btn-group mr-2">
-            <a  class="btn btn-success" href="<?=site_url('Welcome/FromAddPegawai')?>">ADD DATA</a>
-          </div> -->
           </div>
         </div>
       </div>
-<form id="formAddDataPegawai" method="post" class="formAddDataPegawai" >
-  <div class="form-group">
-    <label for="nama">ID Pegawai</label>
-    <input type="text" class="form-control" id="id_pegawai" name="id_pegawai">
-  </div>
-  <div class="form-group">
-    <label for="nama">Nama Pegawai:</label>
-    <input type="text" class="form-control" id="nama" name="nama">
-  </div>
-  <div class="form-group">
-    <label for="alamat">Alamat:</label>
-    <textarea class="form-control" id="alamat" name="alamat"></textarea>
-  </div>
-  <div class="form-group">
-    <label for="tanggal_lahir">Tanggal Lahir:</label>
-    <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir">
-  </div>
-  <div class="form-group">
-    <label for="jenis_kelamin">Jenis Kelamin:</label>
-    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-      <option value="L">Laki-laki</option>
-      <option value="P">Perempuan</option>
-    </select>
-  </div>
-  <button type="button" name="submit" onclick="addData()"class="btn btn-outline-primary" id="submit">
-      Save
-</button>
-</form>
+        <form id="formAddDataKontrak" method="post" class="formAddDataKontrak" >
+        <div class="form-group">
+        <label for="id_pegawai">Pegawai:</label>
+        <select class="form-control" id="id_pegawai" name="id_pegawai">
+            <option value="">-- Pilih  Pegawai --</option>
+            <?php foreach ($tampil as $abc): ?>
+            <option value="<?=$abc->id_pegawai?>"><?=$abc->nama?></option>
+            <?php endforeach;?>
+        </select>
+        </div>
+        <div class="form-group">
+        <label for="id_jabatan">Jabatan:</label>
+        <select class="form-control" id="id_jabatan" name="id_jabatan">
+            <option value="">-- Pilih Jabatan --</option>
+            <?php foreach ($show as $jabatan): ?>
+            <option value="<?=$jabatan->id_jabatan?>"><?=$jabatan->nama_jabatan?></option>
+            <?php endforeach;?>
+        </select>
+        </div>
+        <div class="form-group">
+            <label for="tanggal_lahir">Tanggal Mulai:</label>
+            <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai">
+        </div>
+        <div class="form-group">
+            <label for="tanggal_lahir">Tanggal Selesai:</label>
+            <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai">
+        </div>
+        <button type="button" name="submit" onclick="addData()"class="btn btn-outline-primary" id="submit">
+            Save
+        </button>
+        </form>
 </div>
       <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
 
     </main>
-    
-   
+
+
 
 <script>
  function addData() {
-    var data = $('.formAddDataPegawai').serialize();
+    var data = $('.formAddDataKontrak').serialize();
     console.log(data);
     $.ajax({
         type: 'POST',
-        url: "http://localhost/datakontrakpegawai2/index.php/Welcome/addDataPegawai",
+        url: "http://localhost/datakontrakpegawai2/index.php/Kontrak/AddDataKontrak",
         data: data,
         success: function(data) {
             var datas = JSON.parse(data);
@@ -92,7 +91,7 @@
                 });
                 setTimeout(function() {
                     window.location.href =
-                        "<?= site_url('Welcome/DataPegawai/') ?>";
+                        "<?=site_url('Kontrak/DataKOntrak/')?>";
                 }, 100);
             } else {
                 iziToast.error({
@@ -102,12 +101,10 @@
                 });
 
             }
-
-
         }
     });
 }
-   
+
 </script>
 
 

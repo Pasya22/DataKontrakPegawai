@@ -29,37 +29,17 @@
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2">Add Data</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
-          <div class="btn-group mr-2">
-          <!-- Button trigger modal -->
-          <!-- <div class="btn-group mr-2">
-            <a  class="btn btn-success" href="<?=site_url('Welcome/FromAddPegawai')?>">ADD DATA</a>
-          </div> -->
-          </div>
+          <div class="btn-group mr-2"></div>
         </div>
       </div>
-<form id="formAddDataPegawai" method="post" class="formAddDataPegawai" >
+<form id="formAddDataJabatan" method="post" class="formAddDataJabatan" >
   <div class="form-group">
-    <label for="nama">ID Pegawai</label>
-    <input type="text" class="form-control" id="id_pegawai" name="id_pegawai">
+    <label for="nama_jabatan">Nama Jabatan:</label>
+    <input type="text" class="form-control" id="nama_jabatan" name="nama_jabatan">
   </div>
   <div class="form-group">
-    <label for="nama">Nama Pegawai:</label>
-    <input type="text" class="form-control" id="nama" name="nama">
-  </div>
-  <div class="form-group">
-    <label for="alamat">Alamat:</label>
-    <textarea class="form-control" id="alamat" name="alamat"></textarea>
-  </div>
-  <div class="form-group">
-    <label for="tanggal_lahir">Tanggal Lahir:</label>
-    <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir">
-  </div>
-  <div class="form-group">
-    <label for="jenis_kelamin">Jenis Kelamin:</label>
-    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-      <option value="L">Laki-laki</option>
-      <option value="P">Perempuan</option>
-    </select>
+    <label for="gaji">Gaji:</label>
+    <input class="form-control" id="gaji" name="gaji"></input>
   </div>
   <button type="button" name="submit" onclick="addData()"class="btn btn-outline-primary" id="submit">
       Save
@@ -70,16 +50,14 @@
 
 
     </main>
-    
-   
 
 <script>
  function addData() {
-    var data = $('.formAddDataPegawai').serialize();
+    var data = $('#formAddDataJabatan').serialize();
     console.log(data);
     $.ajax({
         type: 'POST',
-        url: "http://localhost/datakontrakpegawai2/index.php/Welcome/addDataPegawai",
+        url: "http://localhost/datakontrakpegawai2/index.php/Welcome/addDataJabatan",
         data: data,
         success: function(data) {
             var datas = JSON.parse(data);
@@ -92,7 +70,7 @@
                 });
                 setTimeout(function() {
                     window.location.href =
-                        "<?= site_url('Welcome/DataPegawai/') ?>";
+                        "<?=site_url('Welcome/DataJabatan/')?>";
                 }, 100);
             } else {
                 iziToast.error({
@@ -107,7 +85,7 @@
         }
     });
 }
-   
+
 </script>
 
 
