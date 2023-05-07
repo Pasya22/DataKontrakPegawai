@@ -58,7 +58,7 @@ function updatedata() {
     $.ajax({
         type: 'POST',
         url: "http://localhost/datakontrakpegawai2/index.php/Welcome/editDataJabatan/" +<?= $abc->id_jabatan ?>,
-        data: data + <?= $abc->id_jabatan;?>,
+        data: data ,
         success: function(data) {
             var datas = JSON.parse(data);
             // console.log(datas);

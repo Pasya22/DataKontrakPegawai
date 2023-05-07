@@ -23,21 +23,33 @@ class Welcome extends CI_Controller
     // ======================================== GetData ============================== //
     public function DataPegawai()
     {
-        $data['tampil'] = $this->MSudi->GetData('pegawai');
+
         $data['title'] = 'Data Pegawai';
         $this->load->view('temp/header', $data);
         $data['content'] = 'VBlank';
         $this->load->view('datapegawai/datapegawai', $data);
         $this->load->view('temp/footer', $data);
     }
+
+    public function GetPegawai()
+    {
+        $data = $this->MSudi->GetData('pegawai');
+        echo json_encode($data);
+    }
+
     public function DataJabatan()
     {
-        $data['tampilJabatan'] = $this->MSudi->GetData('jabatan_pegawai');
+       
         $data['title'] = 'Data Jabatan';
         $this->load->view('temp/header', $data);
         $data['content'] = 'VBlank';
         $this->load->view('datajabatan/datajabatan', $data);
         $this->load->view('temp/footer', $data);
+    }
+    public function GetJabatan()
+    {
+        $data = $this->MSudi->GetData('jabatan_pegawai');
+        echo json_encode($data);
     }
 
     // ========================================== Add Data =========================== //
@@ -56,7 +68,7 @@ class Welcome extends CI_Controller
         $this->form_validation->set_rules('alamat', 'alamat', 'required');
         $this->form_validation->set_rules('jenis_kelamin', 'jenis Kelamin', 'required');
         if ($this->form_validation->run() == false) {
-            $id_pegawai = $this->input->post('');
+            // $id_pegawai = $this->input->post('');
             $nama = $this->input->post('');
             $alamat = $this->input->post('');
             $tanggal_lahir = $this->input->post('');
@@ -230,7 +242,7 @@ class Welcome extends CI_Controller
     // ============================================ Delete Data =======================//
     public function deleteDataPegawai()
     {
-        $id = $this->uri->segment('3');
+        $id = $this->uri->segment(3);
         $data_pegawai = $this->MSudi->GetDataWhere('pegawai', 'id_pegawai', $id);
 
         if (!$data_pegawai) {
@@ -255,8 +267,8 @@ class Welcome extends CI_Controller
     }
     public function deleteDataJabatan()
     {
-        $id = $this->uri->segment('3');
-        $data_jabatan = $this->MSudi->GetDataWhere('jabatan', 'id_jabatan', $id);
+        $id_jabatan = $this->uri->segment(3);
+        $data_jabatan = $this->MSudi->GetDataWhere('jabatan_pegawai', 'id_jabatan', $id_jabatan);
 
         if (!$data_jabatan) {
             $data = array(
@@ -265,9 +277,9 @@ class Welcome extends CI_Controller
             );
         } else {
             $delete = array(
-                'id_jabatan' => $id,
+                'id_jabatan' => $id_jabatan,
             );
-            $this->MSudi->DeleteData('jabatan', 'id_jabatan', $id);
+            $this->MSudi->DeleteData('jabatan_pegawai', 'id_jabatan', $id_jabatan);
             $data = array(
                 'status' => true,
                 'message' => 'Data berhasil dihapus',

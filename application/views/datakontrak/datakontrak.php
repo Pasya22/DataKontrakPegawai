@@ -105,9 +105,8 @@ $(document).ready(function() {
          '<td>' + html[index].tanggal_mulai + '</td>'+
          '<td>' + html[index].tanggal_selesai + '</td>'+
           '<td>' + 
-            '<a class="btn btn-danger" onclick="hapus('+html[index].id_kontrak+')">Delete</a>' +
-          '</td>'+
-          '<td>' +
+            '<button class="btn btn-danger" onclick="hapus('+html[index].id_kontrak+')">Delete</button>' +
+            ' '+
             '<a class="btn btn-info" href="<?= site_url('Kontrak/FormEditKontrak') ?>/' + html[index].id_kontrak + '">Edit</a>' +
           '</td>'+
          '</tr>';

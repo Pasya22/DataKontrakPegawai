@@ -38,10 +38,10 @@
         </div>
       </div>
 <form id="formAddDataPegawai" method="post" class="formAddDataPegawai" >
-  <div class="form-group">
+  <!-- <div class="form-group">
     <label for="nama">ID Pegawai</label>
     <input type="text" class="form-control" id="id_pegawai" name="id_pegawai">
-  </div>
+  </div> -->
   <div class="form-group">
     <label for="nama">Nama Pegawai:</label>
     <input type="text" class="form-control" id="nama" name="nama">
@@ -57,8 +57,9 @@
   <div class="form-group">
     <label for="jenis_kelamin">Jenis Kelamin:</label>
     <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-      <option value="L">Laki-laki</option>
-      <option value="P">Perempuan</option>
+      <option value="">-- Silahkan Pilih Jenis Kelamin --</option>
+      <option value="Laki Laki">Laki-laki</option>
+      <option value="Perempuan">Perempuan</option>
     </select>
   </div>
   <button type="button" name="submit" onclick="addData()"class="btn btn-outline-primary" id="submit">
@@ -93,7 +94,7 @@
                 setTimeout(function() {
                     window.location.href =
                         "<?= site_url('Welcome/DataPegawai/') ?>";
-                }, 100);
+                }, 1000);
             } else {
                 iziToast.error({
                     title: 'Masyaallah',

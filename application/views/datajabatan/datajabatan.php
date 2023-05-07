@@ -45,20 +45,7 @@
       <th>Action</th>
     </tr>
   </thead>
-  <tbody>
-    <?php foreach ($tampilJabatan as $key => $jabatan) {?>
-      <tr>
-        <td><?=$key + 1?></td>
-        <td><?=$jabatan->nama_jabatan;?></td>
-        <td><?=$jabatan->gaji;?></td>
-        <td>
-        <a class="btn btn-danger" onclick="hapus(<?=$jabatan->id_jabatan;?>)">Delete</a>
-          <a class="btn btn-info" href="<?=site_url('Welcome/FormEditJabatan/' . $jabatan->id_jabatan);?>">
-          Edit
-        </a>
-        </td>
-      </tr>
-    <?php }?>
+  <tbody id="tabelJabatan">
   </tbody>
 </table>
 
@@ -68,6 +55,33 @@
     </main>
 
 <script>
+  // =====================================  Get Data Jabatan ================================ //
+  $(document).ready(function(){
+
+    var data = " ";
+    $.ajax({
+      url: 'http://localhost/datakontrakpegawai2/index.php/Welcome/GetJabatan',
+      method: 'GET',
+      success:function(html){
+        html = JSON.parse(html);
+        for (let index = 0; index < html.length; index++) {
+          data +=
+           '<tr>' + 
+           '<td>' + (index + 1)  + '</td>'+ 
+           '<td>' + html[index].nama_jabatan + '</td>' +
+           '<td>' + html[index].gaji  + '</td>' +
+           '<td>' +  '<button class="btn btn-danger" onclick="hapus('+html[index].id_jabatan+')">Delete</button>' +
+            '  '+
+            '<a class="btn btn-info" href="<?= site_url('Welcome/FormEditJabatan') ?>/' + html[index].id_jabatan + '">Edit</a>' +
+           '</td>' +
+          '</tr>'; 
+        }
+        $("#tabelJabatan").html(data);
+      }
+    });
+  });
+
+  // =====================================  Hapus Data Jabatan ================================ //
       function hapus(id) {
           iziToast.show({
           theme: 'dark',
@@ -89,13 +103,13 @@
                     if (datas.status) {
                         iziToast.success({
                             title: 'Alhamdulilah',
-                            message: 'Data Jabatan Berhasil DiHapus',
+                            message: 'Data Jabatan Berhasil DiHapus'+data,
                             position: 'topRight'
                         });
                         setTimeout(function() {
                             window.location.href =
                                 "<?=site_url('Welcome/DataJabatan/') . $this->uri->segment(3);?>";
-                        }, 100);
+                        }, 2000);
                     } else {
                         iziToast.error({
                             title: 'Masyaallah',

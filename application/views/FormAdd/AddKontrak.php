@@ -92,7 +92,7 @@
                 setTimeout(function() {
                     window.location.href =
                         "<?=site_url('Kontrak/DataKOntrak/')?>";
-                }, 100);
+                }, 1000);
             } else {
                 iziToast.error({
                     title: 'Masyaallah',

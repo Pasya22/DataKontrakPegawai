@@ -50,25 +50,8 @@
       <th>Action</th>
     </tr>
   </thead>
-  <tbody>
-    <?php foreach ($tampil as $key => $pegawai) {?>
-      <tr>
-        <td><?=$key + 1?></td>
-        <td><?=$pegawai->nama;?></td>
-        <td><?=$pegawai->alamat;?></td>
-        <td><?=$pegawai->tanggal_lahir;?></td>
-        <td><?=$pegawai->jenis_kelamin;?></td>
-        <td>
-          <!-- <a class="btn btn-danger" href="<?=site_url('Welcome/deleteDataPegawai/' . $pegawai->id_pegawai);?>">
-            Delete
-          </a> -->
-          <a class="btn btn-danger" onclick="hapus(<?=$pegawai->id_pegawai;?>)">Delete</a>
-          <a class="btn btn-info" href="<?=site_url('Welcome/FormEditPegawai/') . $pegawai->id_pegawai;?>">
-          Edit
-        </a>
-        </td>
-      </tr>
-    <?php }?>
+  <tbody id="tabelPegawai">
+    
   </tbody>
 </table>
 
@@ -80,6 +63,36 @@
     </main>
 
 <script>
+
+// =========================================== Get Data Employee ================================= //
+  $(document).ready(function(){
+    var data = "";
+    $.ajax({
+      url: 'http://localhost/datakontrakpegawai2/index.php/Welcome/GetPegawai',
+      method: 'GET',
+      success:function(html){
+        html = JSON.parse(html);
+        for (let index = 0; index < html.length; index++) {
+          data += '<tr>'+
+           ' <td>' + (index + 1) + ' </td>' +
+         '<td>' + html[index].nama + '</td>'+
+         '<td>' + html[index].alamat + '</td>'+
+         '<td>' + html[index].tanggal_lahir + '</td>'+
+         '<td>' + html[index].jenis_kelamin + '</td>'+
+          '<td>' + 
+            '<button class="btn btn-danger" onclick="hapus('+html[index].id_pegawai+')">Delete</button>' +
+            '  '+
+            '<a class="btn btn-info" href="<?= site_url('Welcome/FormEditPegawai') ?>/' + html[index].id_pegawai + '">Edit</a>' +
+          '</td>'+
+         '</tr>';
+        }
+        $("#tabelPegawai").html(data);
+      }
+
+    });
+  });
+
+// =========================================== Delete Employee ================================= //
  function hapus(id) {
       iziToast.show({
       theme: 'dark',
@@ -107,7 +120,7 @@
                 setTimeout(function() {
                     window.location.href =
                         "<?=site_url('Welcome/DataPegawai/') . $this->uri->segment(3);?>";
-                }, 100);
+                }, 1000);
             } else {
                 iziToast.error({
                     title: 'Masyaallah',

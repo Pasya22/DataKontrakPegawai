@@ -71,7 +71,7 @@
                 setTimeout(function() {
                     window.location.href =
                         "<?=site_url('Welcome/DataJabatan/')?>";
-                }, 100);
+                }, 1000);
             } else {
                 iziToast.error({
                     title: 'Masyaallah',
